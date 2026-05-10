@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周雨娴 - 个人主页</title>
+    <!-- 引入字体和CSS -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <!-- Mermaid JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js"></script>
+    <style>
+        /* 基础样式设置 */
+        :root {
+            --primary-color: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary-color: #059669;
+            --accent-color: #4f46e5;
+            --dark-bg: #1F2937;
+            --dark-card: #374151;
+            --dark-text: #F9FAFB;
+            --light-bg: #F9FAFB;
+            --light-card: #FFFFFF;
+            --light-text: #1F2937;
+            --transition-speed: 0.3s;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        /* 深色模式 */
+        .dark {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .dark .card {
+            background-color: var(--dark-card);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 亮色模式 */
+        .light {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        .light .card {
+            background-color: var(--light-card);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 卡片通用样式 */
+        .card {
+            border-radius: 0.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 首字下沉效果 */
+        .first-letter-drop:first-letter {
+            font-size: 3.5em;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.1em;
+            color: var(--primary-color);
+        }
+
+        /* 渐变背景 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #4f46e5 100%);
+        }
+
+        /* 导航栏激活项 */
+        .nav-active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* 悬停效果 */
+        .hover-lift {
+            transition: transform 0.2s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-3px);
+        }
+
+        /* 奖项徽章 */
+        .award-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #1e40af, #3730a3);
+            border-radius: 9999px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 时间线样式 */
+        .timeline {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        /* 技能进度条 */
+        .skill-container {
+            background-color: #E5E7EB;
+            border-radius: 9999px;
+            height: 0.5rem;
+            overflow: hidden;
+        }
+
+        .dark .skill-container {
+            background-color: #4B5563;
+        }
+
+        .skill-progress {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 1s ease-out;
+        }
+
+        /* 滚动显示动画 */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 暗黑模式文本颜色修复 */
+        .dark .text-gray-600 {
+            color: #CBD5E1 !important;
+        }
+
+        .dark .text-gray-700 {
+            color: #E2E8F0 !important;
+        }
+
+        .dark .text-gray-800 {
+            color: #F1F5F9 !important;
+        }
+
+        .dark .text-gray-900 {
+            color: #F8FAFC !important;
+        }
+
+        .dark .timeline-item:before {
+            border-color: var(--dark-bg);
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                bottom: 1rem;
+                right: 1rem;
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .first-letter-drop:first-letter {
+                font-size: 2.5em;
+            }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .timeline {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-item::before {
+                left: -1.5rem;
+            }
+
+            .theme-toggle {
+                bottom: 1rem;
+                right: 1rem;
+                height: 2.5rem;
+                width: 2.5rem;
+            }
+        }
+
+        /* 微交互动画 */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* 图片悬停效果 */
+        .img-hover-zoom {
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+
+        .img-hover-zoom img {
+            transition: transform 0.5s ease;
+        }
+
+        .img-hover-zoom:hover img {
+            transform: scale(1.1);
+        }
+
+        /* 导航栏样式优化 */
+        .nav-link {
+            position: relative;
+            padding-bottom: 0.25rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-active::after {
+            width: 100%;
+        }
+
+        /* 页面切换过渡 */
+        .page-transition {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 证书展示盒样式 */
+        .certificate-box {
+            transition: all 0.3s ease;
+        }
+
+        .certificate-nav-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .award-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .award-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .award-item.active {
+            border-left: 4px solid #3B82F6;
+        }
+
+        #certificate-image {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        #certificate-title {
+            transition: opacity 0.3s ease;
+        }
+
+        /* Mermaid图表容器样式 */
+        .mermaid-wrapper {
+            background-color: #F7F7F7;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .mermaid-wrapper {
+            background-color: #2F2F2F;
+        }
+
+        /* 暗黑模式文本颜色优化 */
+        .dark .bg-white,
+        .dark .bg-white\/60,
+        .dark .bg-white\/70,
+        .dark .bg-white\/80,
+        .dark .bg-gradient-to-r[class*="from-blue-50"],
+        .dark .bg-gradient-to-r[class*="from-indigo-50"],
+        .dark .bg-gradient-to-r[class*="from-purple-50"],
+        .dark .bg-gradient-to-r[class*="from-amber-50"],
+        .dark .bg-gradient-to-r[class*="from-yellow-50"],
+        .dark .bg-gradient-to-br[class*="from-blue-50"],
+        .dark .bg-gradient-to-br[class*="from-indigo-50"],
+        .dark .bg-gradient-to-br[class*="from-purple-50"],
+        .dark .bg-gradient-to-br[class*="from-gray-50"] {
+            color-scheme: light;
+        }
+
+        /* 确保卡片内的文本在暗黑模式下具有足够对比度 */
+        .dark .card h4.text-black,
+        .dark .award-item h4.text-black,
+        .dark .rounded-lg h4.text-black,
+        .dark .p-4 h4.text-black,
+        .dark .bg-gradient-to-r h4.text-black,
+        .dark .bg-gradient-to-br h4.text-black,
+        .dark .font-bold.text-black {
+            color: #1a202c !important;
+        }
+
+        /* 调整暗黑模式下特定元素的文本颜色 */
+        .dark .bg-white\/70 .font-medium,
+        .dark .bg-white\/60 .font-medium,
+        .dark .bg-gradient-to-r .font-medium,
+        .dark .bg-gradient-to-br .font-medium {
+            color: #1a202c;
+        }
+
+        /* 确保暗黑模式下浅色背景卡片内所有正文文本可读 */
+        .dark .bg-gradient-to-br[class*="from-blue-50"] .text-gray-700,
+        .dark .bg-gradient-to-br[class*="from-indigo-50"] .text-gray-700,
+        .dark .bg-gradient-to-br[class*="from-purple-50"] .text-gray-700,
+        .dark .bg-gradient-to-br[class*="from-gray-50"] .text-gray-700,
+        .dark .bg-gradient-to-r[class*="from-blue-50"] .text-gray-700,
+        .dark .bg-gradient-to-r[class*="from-indigo-50"] .text-gray-700,
+        .dark .bg-gradient-to-r[class*="from-purple-50"] .text-gray-700,
+        .dark .bg-gradient-to-r[class*="from-amber-50"] .text-gray-700,
+        .dark .bg-gradient-to-r[class*="from-yellow-50"] .text-gray-700,
+        .dark .bg-white\/70 .text-gray-700,
+        .dark .bg-white\/80 .text-gray-700,
+        .dark .bg-white\/60 .text-gray-700,
+        .dark .p-4 .text-gray-700,
+        .dark .p-5 .text-gray-700,
+        .dark .p-6 .text-gray-700,
+        .dark .p-8 .text-gray-700 {
+            color: #374151 !important;
+        }
+
+        /* 暗黑模式下浅色背景中的蓝色文本 */
+        .dark .bg-gradient-to-r .text-blue-600,
+        .dark .bg-gradient-to-br .text-blue-600,
+        .dark .bg-white\/70 .text-blue-600,
+        .dark .bg-white\/80 .text-blue-600,
+        .dark .p-4 .text-blue-600,
+        .dark .p-5 .text-blue-600,
+        .dark .award-item .text-blue-600,
+        .dark .card .text-blue-600 {
+            color: #1d4ed8 !important;
+        }
+
+        /* 暗黑模式下背景白色的容器内文字颜色修正 */
+        .dark .bg-white\/80 *,
+        .dark .bg-white\/70 *,
+        .dark .bg-white\/60 * {
+            color-scheme: light;
+        }
+
+        /* 核心标题文本颜色强制修正 */
+        .dark .bg-gradient-to-r h4,
+        .dark .bg-gradient-to-br h4,
+        .dark .card h4,
+        .dark .p-4 h4,
+        .dark .p-5 h4,
+        .dark .p-6 h4,
+        .dark .p-8 h4,
+        .dark .award-item h4,
+        .dark .rounded-lg h4 {
+            color: #1a202c !important;
+        }
+
+        /* 修正导航栏在暗黑模式下的颜色 */
+        .dark .text-gray-600.dark\:text-gray-400 {
+            color: #000 !important;
+        }
+
+        /* 导航项在暗黑模式下默认黑色 */
+        .dark .nav-link.text-gray-800.dark\:text-gray-200 {
+            color: #000 !important;
+        }
+
+        /* 导航项在暗黑模式下悬停和激活时为蓝色 */
+        .dark .nav-link.text-gray-800.dark\:text-gray-200:hover,
+        .dark .nav-link.text-gray-800.dark\:text-gray-200.text-blue-600 {
+            color: #3B82F6 !important;
+        }
+
+        /* 移动端菜单项在暗黑模式下的颜色修正 */
+        .dark #mobile-menu .block.py-2.text-gray-800.dark\:text-gray-200 {
+            color: #000 !important;
+        }
+
+        .dark #mobile-menu .block.py-2.text-gray-800.dark\:text-gray-200:hover {
+            color: #3B82F6 !important;
+        }
+
+        /* 全局样式 */
+        body {
+            font-family: 'Noto Sans SC', Tahoma, Arial, Roboto, "Droid Sans", "Helvetica Neue", "Droid Sans Fallback", "Heiti SC", "Hiragino Sans GB", Simsun, sans-serif;
+            color: #374151;
+            line-height: 1.6;
+            min-height: 100vh;
+            background-color: #f9fafb;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        /* 下面添加证书展示盒相关样式 */
+        .certificate-nav-btn {
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .certificate-display:hover .certificate-nav-btn {
+            opacity: 0.8;
+        }
+
+        .certificate-box {
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(99, 102, 241, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .certificate-box:hover {
+            box-shadow: 0 15px 30px -10px rgba(59, 130, 246, 0.2), 0 10px 20px -8px rgba(99, 102, 241, 0.2);
+        }
+
+        .certificate-thumbs-container::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .certificate-thumbs-container::-webkit-scrollbar-track {
+            background: rgba(219, 234, 254, 0.3);
+            border-radius: 10px;
+        }
+
+        .certificate-thumbs-container::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 10px;
+        }
+
+        .certificate-thumbnail {
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .certificate-thumbnail.active {
+            border-left-color: #3B82F6;
+        }
+
+        .certificate-filter-btn {
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-filter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: #3B82F6;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .certificate-filter-btn.active::after {
+            width: 80%;
+        }
+
+        @media (max-width: 768px) {
+            .certificate-display {
+                height: 280px;
+            }
+        }
+
+        /* Academic project outcome accent */
+        .project-outcome {
+            border-left: 4px solid #1e40af;
+            background-color: #f8fafc;
+            border-radius: 0 0.75rem 0.75rem 0;
+            padding: 1.25rem;
+        }
+        .dark .project-outcome {
+            background-color: #1e293b;
+            border-left-color: #3b82f6;
+        }
+    </style>
+</head>
+
+<body class="light page-transition">
+    <!-- 添加头部英区域 -->
+    <header class="bg-gradient-to-b from-blue-900 to-gray-900 text-white pt-12 pb-16 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row items-center md:items-start">
+                <div
+                    class="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden mb-6 md:mb-0 md:mr-8 border-4 border-white/20 shadow-xl">
+                    <img src="resource/avatar.png" alt="周雨娴的照片" class="w-full h-full object-cover">
+                </div>
+                <div class="text-center md:text-left md:pt-4">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-2 text-white">周雨娴</h1>
+                    <p class="text-xl text-blue-200 mb-6">东北大学 · 计算机科学与技术</p>
+                    <!-- <div class="flex flex-wrap justify-center md:justify-start gap-4 mb-6">
+                        <div class="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full hover:bg-white/20 transition-all duration-300">
+                            <span class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center mr-3">
+                                <i class="fas fa-map-marker-alt text-blue-200"></i>
+                            </span>
+                            <span class="text-blue-100">浙江省杭州市</span>
+                        </div>
+                        <div class="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full hover:bg-white/20 transition-all duration-300">
+                            <span class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center mr-3">
+                                <i class="fas fa-flag text-blue-200"></i>
+                            </span>
+                            <span class="text-blue-100">共青团员</span>
+                        </div>
+                    </div> -->
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                        <a href="mailto:2585867263@qq.com"
+                            class="flex items-center bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full hover:bg-white/20 transition-all duration-300">
+                            <span class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center mr-3">
+                                <i class="fas fa-envelope text-blue-200"></i>
+                            </span>
+                            <span class="text-blue-100">2585867263@qq.com</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 导航栏 -->
+    <nav
+        class="sticky top-0 z-50 backdrop-filter backdrop-blur-lg bg-opacity-70 dark:bg-opacity-70 bg-white dark:bg-gray-900 shadow-md">
+        <!-- 添加进度条在导航栏内部顶部 -->
+        <div id="scroll-progress-container" class="absolute top-0 left-0 w-full h-2 z-[100]">
+            <div id="scroll-progress-bar"
+                class="h-full bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 w-0 transition-all duration-100 shadow-lg">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-bold text-blue-600 dark:text-blue-400">周雨娴</span>
+                <span class="text-sm text-gray-600 dark:text-gray-400">| 个人主页</span>
+            </div>
+
+            <!-- 桌面端导航 -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#about"
+                    class="nav-link text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">关于我</a>
+                <a href="#education"
+                    class="nav-link text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">教育背景</a>
+                <a href="#project"
+                    class="nav-link text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">项目经历</a>
+                <a href="#awards"
+                    class="nav-link text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">获奖情况</a>
+                <a href="#work"
+                    class="nav-link text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">学生工作</a>
+            </div>
+
+            <!-- 移动端菜单按钮 -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-800 dark:text-gray-200 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-900 pb-4 px-4">
+            <a href="#about"
+                class="block py-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">关于我</a>
+            <a href="#education"
+                class="block py-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">教育背景</a>
+            <a href="#project"
+                class="block py-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">项目经历</a>
+            <a href="#awards"
+                class="block py-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">获奖情况</a>
+            <a href="#work"
+                class="block py-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">学生工作</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-12">
+        <!-- 关于我 -->
+        <section id="about" class="mb-20 scroll-reveal">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/4 mb-6 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4 inline-block pb-2 border-b-4 border-blue-800">关于我</h2>
+                </div>
+                <div class="md:w-3/4">
+                    <div
+                        class="card p-8 rounded-xl border border-blue-100 dark:border-blue-900/30 hover:shadow-xl transition-all duration-300">
+                        <div class="space-y-6">
+                            <div
+                                class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-xl shadow-inner">
+                                <p class="text-lg mb-0 leading-relaxed text-gray-700 dark:text-gray-300">
+                                    作为<strong>东北大学</strong>计算机科学与技术专业的本科生，我专业基础扎实，在<strong>底层系统构建</strong>、<strong>多任务并发控制</strong>和<strong>复杂逻辑设计</strong>方面积累了扎实的实践经验。我热衷于探索<strong>高性能架构</strong>与<strong>数据一致性解决方案</strong>，擅长利用<strong>AI辅助工具</strong>提升工程开发效率，致力于构建稳定、可扩展的核心业务系统，具备优秀的科研探索与工程实践双重能力。
+                                </p>
+                            </div>
+
+                            <div
+                                class="p-5 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl hover:shadow-md transition-all duration-300 border border-indigo-100 dark:border-indigo-900/30">
+                                <h3
+                                    class="flex items-center text-lg font-bold text-indigo-700 dark:text-indigo-300 mb-3">
+                                    <i class="fas fa-laptop-code text-indigo-500 mr-2"></i>专业技能
+                                </h3>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    在技术栈方面，我熟练掌握<strong>C/C++</strong>编程，并具备<strong>Java</strong>、<strong>Verilog</strong>以及<strong>MySQL</strong>的开发经验。基于扎实的算法与数据结构功底，我深入理解计算机底层架构、操作系统原理及网络协议，能够处理复杂的多任务并发控制与系统级逻辑设计。同时，我紧跟行业前沿，熟练运用VS Code、Git等开发工具，并能深度结合<strong>AI辅助编程（Vibe Coding）</strong>提升工程效率。
+                                </p>
+                            </div>
+
+                            <div
+                                class="p-5 bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-xl hover:shadow-md transition-all duration-300 border border-green-100 dark:border-green-900/30">
+                                <h3 class="flex items-center text-lg font-bold text-green-700 dark:text-green-300 mb-3">
+                                    <i class="fas fa-project-diagram text-green-500 mr-2"></i>项目经历
+                                </h3>
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    具备从底层架构设计到应用层逻辑实现的多维开发经验。项目涵盖<strong>模拟操作系统核心模块开发</strong>、<strong>MIPS32五级流水线CPU逻辑验证</strong>以及基于高性能数据结构的<strong>文本检索系统</strong>构建。通过整合C++、Java及Verilog等技术栈，实现了从底层硬件模拟到图形化交互系统的全流程开发，并能熟练利用<strong>AI工具</strong>辅助复杂逻辑的调试与性能优化。
+                                </p>
+                            </div>
+
+                            <div class="flex flex-wrap gap-3 justify-center md:justify-start mt-6">
+                                <span
+                                    class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200 rounded-full text-sm font-medium">C/C++</span>
+                                <span
+                                    class="px-3 py-1 bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-200 rounded-full text-sm font-medium">系统底层开发</span>
+                                <span
+                                    class="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200 rounded-full text-sm font-medium">软硬件协同设计</span>
+                                <span
+                                    class="px-3 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200 rounded-full text-sm font-medium">AI驱动工程效能</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 教育背景 -->
+        <section id="education" class="mb-20 scroll-reveal">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/4 mb-6 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4 inline-block pb-2 border-b-4 border-blue-800">教育背景</h2>
+                </div>
+                <div class="md:w-3/4">
+                    <div
+                        class="card p-8 rounded-xl border border-blue-100 dark:border-blue-900/30 hover:shadow-xl transition-all duration-300">
+                        <div class="flex items-center mb-8">
+                            <div
+                                class="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mr-6 shadow-lg transform hover:rotate-12 transition-transform duration-300">
+                                <i class="fas fa-university text-3xl text-white"></i>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-300 dark:to-blue-500">
+                                    东北大学</h3>
+                                <p class="text-gray-600 dark:text-white flex items-center mt-1">
+                                    <i class="fas fa-graduation-cap text-blue-500 dark:text-blue-300 mr-2"></i>计算机科学与技术
+                                    <span class="mx-2 dark:text-white">|</span>
+                                    <i
+                                        class="fas fa-calendar-alt text-blue-500 dark:text-blue-300 mr-2"></i>2023.09-2027.07
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 学业表现 -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div
+                                class="p-6 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl hover:shadow-md transition-shadow border border-purple-100 dark:border-purple-900/30 group">
+                                <h4 class="font-bold mb-4 flex items-center text-purple-700 dark:text-purple-300">
+                                    <i class="fas fa-chart-line text-purple-500 mr-2 group-hover:animate-bounce"></i>GPA
+                                </h4>
+                                <div class="flex items-baseline">
+                                    <p
+                                        class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">
+                                        3.71/5.00</p>
+                                </div>
+                                <div class="mt-2 flex items-center">
+                                    <div class="text-base text-purple-600 dark:text-purple-400">专业排名：</div>
+                                    <div
+                                        class="ml-2 px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-sm font-medium rounded-full">
+                                        41/196(21%)</div>
+                                </div>
+                                <div class="w-full bg-purple-100 dark:bg-purple-900/30 rounded-full h-2 mt-4">
+                                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full"
+                                        style="width: 79.1%"></div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-md transition-shadow border border-blue-100 dark:border-blue-900/30 group">
+                                <h4 class="font-bold mb-4 flex items-center text-blue-700 dark:text-blue-300">
+                                    <i class="fas fa-language text-blue-500 mr-2 group-hover:animate-bounce"></i>英语水平
+                                </h4>
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-blue-700 dark:text-blue-300">CET-4</span>
+                                        <span class="font-bold text-xl text-blue-700 dark:text-blue-300">619</span>
+                                    </div>
+                                    <div class="w-full bg-blue-100 dark:bg-blue-900/30 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full"
+                                            style="width: 87.2%"></div>
+                                    </div>
+
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-blue-700 dark:text-blue-300">CET-6</span>
+                                        <span class="font-bold text-xl text-blue-700 dark:text-blue-300">576</span>
+                                    </div>
+                                    <div class="w-full bg-blue-100 dark:bg-blue-900/30 rounded-full h-2">
+                                        <div class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full"
+                                            style="width: 81.1%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 主修课程 -->
+                        <div class="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-md transition-shadow border border-blue-100 dark:border-blue-900/30">
+                            <h4 class="font-bold mb-5 flex items-center text-blue-700 dark:text-blue-300 text-xl">
+                                <i class="fas fa-book-open text-blue-500 mr-3"></i>主修课程
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                                <div class="flex items-center p-4 bg-white/70 dark:bg-gray-800/40 rounded-lg hover:shadow-md transition-shadow hover:translate-x-1 duration-300">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mr-4 shadow-sm">
+                                        <i class="fas fa-code text-white text-lg"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center flex-grow">
+                                        <span class="font-medium text-lg text-gray-800 dark:text-gray-200">C++程序设计</span>
+                                        <span class="bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1.5 rounded text-sm font-bold ml-2">94</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center p-4 bg-white/70 dark:bg-gray-800/40 rounded-lg hover:shadow-md transition-shadow hover:translate-x-1 duration-300">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mr-4 shadow-sm">
+                                        <i class="fas fa-chart-bar text-white text-lg"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center flex-grow">
+                                        <span class="font-medium text-lg text-gray-800 dark:text-gray-200">概率论与数理统计</span>
+                                        <span class="bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1.5 rounded text-sm font-bold ml-2">92</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center p-4 bg-white/70 dark:bg-gray-800/40 rounded-lg hover:shadow-md transition-shadow hover:translate-x-1 duration-300">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mr-4 shadow-sm">
+                                        <i class="fas fa-sitemap text-white text-lg"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center flex-grow">
+                                        <span class="font-medium text-lg text-gray-800 dark:text-gray-200">数据结构</span>
+                                        <span class="bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1.5 rounded text-sm font-bold ml-2">92</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center p-4 bg-white/70 dark:bg-gray-800/40 rounded-lg hover:shadow-md transition-shadow hover:translate-x-1 duration-300">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mr-4 shadow-sm">
+                                        <i class="fas fa-layer-group text-white text-lg"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center flex-grow">
+                                        <span class="font-medium text-lg text-gray-800 dark:text-gray-200">软件工程</span>
+                                        <span class="bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 px-3 py-1.5 rounded text-sm font-bold ml-2">91</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 项目经历 -->
+        <section id="project" class="mb-20 scroll-reveal">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/4 mb-6 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4 inline-block pb-2 border-b-4 border-blue-800">项目经历</h2>
+                </div>
+                <div class="md:w-3/4">
+                    <div class="timeline">
+                        <!-- 项目：Embodied-R (ACM MM 2025) -->
+                        <div class="timeline-item">
+                            <div class="card p-6 mb-4">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="text-xl font-bold flex items-center">
+                                        <i class="fas fa-file-alt text-blue-600 dark:text-blue-400 mr-2"></i>ACM MM 2025
+                                        (CCF-A)
+                                    </h3>
+                                    <span
+                                        class="text-sm bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200 px-3 py-1 rounded-full">2025.02-2025.05</span>
+                                </div>
+
+                                <!-- 论文名称 -->
+                                <div class="mb-5">
+                                    <h4 class="font-bold mb-3 flex items-center text-blue-700 dark:text-blue-300">
+                                        <i class="fas fa-bookmark text-blue-600 dark:text-blue-400 mr-2"></i>论文名称：<span
+                                            class="text-blue-600 dark:text-blue-400">Embodied-R: Collaborative Framework
+                                            for Activating Embodied Spatial Reasoning in Foundation Models via
+                                            Reinforcement Learning</span>
+                                    </h4>
+                                    <div class="mb-2 flex flex-wrap gap-2">
+                                        <span
+                                            class="inline-block px-3 py-1 bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 rounded-full text-sm font-medium">共同第一作者</span>
+                                        <span
+                                            class="inline-block px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm font-medium">Accepted</span>
+                                    </div>
+                                </div>
+
+                                <!-- 论文概述 -->
+                                <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                                    <h4 class="text-blue-600 dark:text-blue-300 font-bold mb-4 flex items-center">
+                                        <i class="fas fa-info-circle text-blue-500 mr-2"></i>论文概述
+                                    </h4>
+                                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    <li>提出<strong>Embodied-R</strong>协同框架，将<strong>感知与推理解耦</strong>，利用大规模<strong>视觉-语言模型(VLM)</strong>处理感知，训练小规模<strong>语言模型(LM)</strong>进行推理，实现"慢思考"能力。
+                                    </li>
+                                    <li>首次将<strong>强化学习(RL)</strong>引入具身空间推理领域，创新性地引入<strong>逻辑一致性奖励机制</strong>，提升推理过程与答案的一致性。
+                                    </li>
+                                    <li>仅需<strong>5k具身视频样本</strong>训练，3B参数的小模型即可在具身空间推理任务上达到与<strong>OpenAI-o1</strong>、<strong>Gemini-2.5-Pro</strong>等最先进模型<strong>相媲美</strong>的表现。
+                                    </li>
+                                    <li>模型展现出<strong>系统分析</strong>和<strong>上下文整合</strong>等<strong>涌现思维模式</strong>，并具备良好的<strong>分布外泛化能力</strong>。
+                                    </li>
+                                    </p>
+                                </div>
+
+                                <!-- 资源链接区域 -->
+                                <div class="mb-8 grid grid-cols-2 md:grid-cols-3 gap-3">
+                                    <a href="https://arxiv.org/abs/2504.12680" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 rounded-lg transition-colors">
+                                        <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                                        <span class="text-red-700 dark:text-red-300">论文链接</span>
+                                    </a>
+                                    <a href="https://embodiedcity.github.io/Embodied-R/" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30 rounded-lg transition-colors">
+                                        <i class="fas fa-globe text-blue-500 mr-2"></i>
+                                        <span class="text-blue-700 dark:text-blue-300">项目主页</span>
+                                    </a>
+                                    <a href="https://github.com/EmbodiedCity/Embodied-R.code" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-purple-50 hover:bg-purple-100 dark:bg-purple-900/20 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
+                                        <i class="fab fa-github text-purple-500 mr-2"></i>
+                                        <span class="text-purple-700 dark:text-purple-300">代码链接</span>
+                                    </a>
+                                </div>
+
+                                <!-- 图片展示区域 -->
+                                <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div
+                                        class="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-md transition-all duration-300 border border-blue-100 dark:border-blue-900/30">
+                                        <h5
+                                            class="text-blue-600 dark:text-blue-300 font-bold mb-3 flex items-center text-lg">
+                                            <i class="fas fa-project-diagram text-blue-500 mr-2"></i>框架设计
+                                        </h5>
+                                        <div
+                                            class="rounded-lg overflow-hidden flex-none h-64 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                            <img src="resource/embodied-r_framework.png" alt="Embodied-R框架图"
+                                                class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                        </div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-3">
+                                            感知-推理解耦协同框架</p>
+                                    </div>
+                                    <div
+                                        class="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-md transition-all duration-300 border border-blue-100 dark:border-blue-900/30">
+                                        <h5
+                                            class="text-blue-600 dark:text-blue-300 font-bold mb-3 flex items-center text-lg">
+                                            <i class="fas fa-chart-bar text-blue-500 mr-2"></i>实验结果
+                                        </h5>
+                                        <div
+                                            class="rounded-lg overflow-hidden flex-none h-64 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                            <img src="resource/embodied-r_rader.png" alt="Embodied-R实验结果"
+                                                class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                        </div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-3">
+                                            与SOTA模型的性能对比</p>
+                                    </div>
+                                </div>
+
+                                <!-- 负责内容区域 -->
+                                <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                                    <h5 class="font-bold mb-3 flex items-center text-gray-700 dark:text-gray-300">
+                                        <i class="fas fa-tasks text-blue-500 mr-2"></i>负责内容
+                                    </h5>
+                                    <p class="text-gray-700 dark:text-gray-300 mb-0">
+                                        评估并测试多种开源框架；部署多模态大模型，并进行<b>视频与文本的GRPO微调训练</b>；设计并实现<b>核心奖励函数</b>；开发<b>论文展示网页</b>；完成<b>可视化图表的绘制</b>。
+                                    </p>
+                                </div>
+
+                                <!-- 项目成果 -->
+                                <div class="project-outcome">
+                                    <h5 class="font-bold mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                                        <i class="fas fa-trophy text-amber-500 mr-2"></i>项目成果
+                                    </h5>
+                                    <p class="text-gray-700 dark:text-gray-300">
+                                        论文已被<strong class="text-blue-700 dark:text-blue-300">ACM MM 2025</strong>录用；论文累计被引<strong
+                                            class="text-blue-700 dark:text-blue-300">35次</strong>，相关报道累计转发量<strong
+                                            class="text-blue-700 dark:text-blue-300">1800+</strong>。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 项目：AirScape (ACM MM 2025 BNI Track) -->
+                        <div class="timeline-item">
+                            <div class="card p-6 mb-4">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="text-xl font-bold flex items-center">
+                                        <i class="fas fa-file-alt text-blue-600 dark:text-blue-400 mr-2"></i>ACM MM 2025
+                                        BNI Track (CCF-A, Oral)
+                                    </h3>
+                                    <span
+                                        class="text-sm bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200 px-3 py-1 rounded-full">2025.04-2025.07</span>
+                                </div>
+
+                                <!-- 论文名称 -->
+                                <div class="mb-5">
+                                    <h4 class="font-bold mb-3 flex items-center text-blue-700 dark:text-blue-300">
+                                        <i class="fas fa-bookmark text-blue-600 dark:text-blue-400 mr-2"></i>论文名称：<span
+                                            class="text-blue-600 dark:text-blue-400">AirScape: An Aerial Generative World
+                                            Model with Motion Controllability</span>
+                                    </h4>
+                                    <div class="mb-2 flex flex-wrap gap-2">
+                                        <span
+                                            class="inline-block px-3 py-1 bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 rounded-full text-sm font-medium">共同第一作者</span>
+                                        <span
+                                            class="inline-block px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm font-medium">Oral</span>
+                                    </div>
+                                </div>
+
+                                <!-- 论文概述 -->
+                                <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                                    <h4 class="text-blue-600 dark:text-blue-300 font-bold mb-4 flex items-center">
+                                        <i class="fas fa-info-circle text-blue-500 mr-2"></i>论文概述
+                                    </h4>
+                                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    <li>提出<strong>AirScape</strong>，首个专为<strong>六自由度(6DoF)空中智能体</strong>设计的<strong>生成式世界模型</strong>，能基于当前视觉输入和文本运动意图预测未来观察序列。
+                                    </li>
+                                    <li>构建包含<strong>1.1万个视频-意图对</strong>的空中数据集，涵盖多种无人机动作、场景和光照条件，人工标注时长超过<strong>1000小时</strong>。
+                                    </li>
+                                    <li>提出<strong>两阶段训练方法</strong>：先微调视频生成基础模型适应文本和视频分布，再通过<strong>拒绝采样</strong>和<strong>自博弈训练</strong>进一步优化违反空间物理约束的生成结果。
+                                    </li>
+                                    <li>在3D空间想象能力上<strong>显著优于</strong>现有基础模型，运动对齐指标<strong>提升超过50%</strong>。
+                                    </li>
+                                    </p>
+                                </div>
+
+                                <!-- 资源链接区域 -->
+                                <div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <a href="https://arxiv.org/abs/2507.08885" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 rounded-lg transition-colors">
+                                        <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                                        <span class="text-red-700 dark:text-red-300">arXiv</span>
+                                    </a>
+                                    <a href="https://embodiedcity.github.io/AirScape/" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30 rounded-lg transition-colors">
+                                        <i class="fas fa-globe text-blue-500 mr-2"></i>
+                                        <span class="text-blue-700 dark:text-blue-300">项目主页</span>
+                                    </a>
+                                    <a href="https://github.com/EmbodiedCity/AirScape.code" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-purple-50 hover:bg-purple-100 dark:bg-purple-900/20 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
+                                        <i class="fab fa-github text-purple-500 mr-2"></i>
+                                        <span class="text-purple-700 dark:text-purple-300">代码链接</span>
+                                    </a>
+                                    <a href="https://huggingface.co/datasets/EmbodiedCity/AirScape-Dataset" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:hover:bg-green-900/30 rounded-lg transition-colors">
+                                        <i class="fas fa-database text-green-500 mr-2"></i>
+                                        <span class="text-green-700 dark:text-green-300">数据集</span>
+                                    </a>
+                                </div>
+
+                                <!-- 图片展示区域 -->
+                                <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div
+                                        class="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-md transition-all duration-300 border border-blue-100 dark:border-blue-900/30">
+                                        <h5
+                                            class="text-blue-600 dark:text-blue-300 font-bold mb-3 flex items-center text-lg">
+                                            <i class="fas fa-project-diagram text-blue-500 mr-2"></i>方法框架
+                                        </h5>
+                                        <div
+                                            class="rounded-lg overflow-hidden flex-none h-64 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                            <img src="resource/airscape_method.png" alt="AirScape方法框架"
+                                                class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                        </div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-3">
+                                            两阶段训练方法框架</p>
+                                    </div>
+                                    <div
+                                        class="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-md transition-all duration-300 border border-blue-100 dark:border-blue-900/30">
+                                        <h5
+                                            class="text-blue-600 dark:text-blue-300 font-bold mb-3 flex items-center text-lg">
+                                            <i class="fas fa-helicopter text-blue-500 mr-2"></i>场景示例
+                                        </h5>
+                                        <div
+                                            class="rounded-lg overflow-hidden flex-none h-64 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                            <img src="resource/airscape_intro.png" alt="AirScape场景示例"
+                                                class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                        </div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-3">
+                                            多场景多动作的空中视觉预测</p>
+                                    </div>
+                                </div>
+
+                                <!-- 负责内容区域 -->
+                                <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                                    <h5 class="font-bold mb-3 flex items-center text-gray-700 dark:text-gray-300">
+                                        <i class="fas fa-tasks text-blue-500 mr-2"></i>负责内容
+                                    </h5>
+                                    <p class="text-gray-700 dark:text-gray-300 mb-0">
+                                        参与<b>两阶段训练方法设计</b>；进行<b>模型微调训练和推理测试</b>；参与<b>论文图表绘制</b>和<b>论文展示网页开发</b>工作。
+                                    </p>
+                                </div>
+
+                                <!-- 项目成果 -->
+                                <div class="project-outcome">
+                                    <h5 class="font-bold mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                                        <i class="fas fa-trophy text-amber-500 mr-2"></i>项目成果
+                                    </h5>
+                                    <p class="text-gray-700 dark:text-gray-300">
+                                        论文已被<strong class="text-blue-700 dark:text-blue-300">ACM MM 2025 BNI Track</strong>录用，并受邀进行<strong
+                                            class="text-blue-700 dark:text-blue-300">口头汇报(Oral)</strong>。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 项目：ACL 2025 Conference -->
+                        <div class="timeline-item">
+                            <div class="card p-6 mb-4">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="text-xl font-bold flex items-center">
+                                        <i class="fas fa-file-alt text-blue-600 dark:text-blue-400 mr-2"></i>ACL 2025
+                                        Conference(CCFA)
+                                    </h3>
+                                    <span
+                                        class="text-sm bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200 px-3 py-1 rounded-full">2025.01-2025.03</span>
+                                </div>
+
+                                <!-- 论文名称 -->
+                                <div class="mb-5">
+                                    <h4 class="font-bold mb-3 flex items-center text-blue-700 dark:text-blue-300">
+                                        <i class="fas fa-bookmark text-blue-600 dark:text-blue-400 mr-2"></i>论文名称：<span
+                                            class="text-blue-600 dark:text-blue-400">UrbanVideo-Bench: Benchmarking Vision-Language Models on Embodied Intelligence with Video Data in Urban Spaces</span>
+                                    </h4>
+                                    <div class="mb-2">
+                                        <span
+                                            class="inline-block px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm font-medium">第四作者</span>
+                                    </div>
+                                </div>
+
+                                <!-- 论文概述 - 蓝色背景区域 -->
+                                <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                                    <h4 class="text-blue-600 dark:text-blue-300 font-bold mb-4 flex items-center">
+                                        <i class="fas fa-info-circle text-blue-500 mr-2"></i>论文概述
+                                    </h4>
+                                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                        <li>论文提出<strong>UrbanVideo-Bench</strong>，首个用于评估<strong>视频-语言大模型</strong>（Video-LLMs）在城市开放空间中的<strong>具身认知能力</strong>的基准，特别关注在<strong>三维城市环境</strong>中进行连续的<strong>第一人称视觉观察和导航</strong>的能力。
+                                        </li>
+                                        <li>通过手动控制<strong>无人机</strong>在现实世界城市和模拟环境中收集视频数据，生成了约<strong>1500个视频片段</strong>，并设计了生成<strong>5200+个多项选择题</strong>的流程，旨在评估Video-LLMs在具身认知任务中的表现。
+                                        </li>
+                                        <li>设计了包含<strong>16个任务</strong>的多样化任务集，涵盖<strong>回忆、感知、推理和导航</strong>四个方面的具身认知能力，反映了在城市开放空间中可能遇到的实际挑战。
+                                        </li>
+                                        <li>对<strong>17种</strong>广泛使用的Video-LLMs进行了<strong>定量和定性评估</strong>，揭示了当前模型在具身认知任务中的局限性。
+                                        </li>
+                                    </p>
+                                </div>
+
+                                <!-- 资源链接区域 -->
+                                <div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <a href="https://arxiv.org/pdf/2503.06157" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-red-50 hover:bg-red-100 dark:bg-red-900/20 dark:hover:bg-red-900/30 rounded-lg transition-colors">
+                                        <i class="fas fa-file-pdf text-red-500 mr-2"></i>
+                                        <span class="text-red-700 dark:text-red-300">论文链接</span>
+                                    </a>
+                                    <a href="https://embodiedcity.github.io/UrbanVideo-Bench/" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30 rounded-lg transition-colors">
+                                        <i class="fas fa-globe text-blue-500 mr-2"></i>
+                                        <span class="text-blue-700 dark:text-blue-300">项目主页</span>
+                                    </a>
+                                    <a href="https://github.com/EmbodiedCity/UrbanVideo-Bench.code" target="_blank"
+                                        class="flex items-center px-4 py-2 bg-purple-50 hover:bg-purple-100 dark:bg-purple-900/20 dark:hover:bg-purple-900/30 rounded-lg transition-colors">
+                                        <i class="fab fa-github text-purple-500 mr-2"></i>
+                                        <span class="text-purple-700 dark:text-purple-300">代码链接</span>
+                                    </a>
+                                    <a href="https://huggingface.co/datasets/EmbodiedCity/UrbanVideo-Bench"
+                                        target="_blank"
+                                        class="flex items-center px-4 py-2 bg-green-50 hover:bg-green-100 dark:bg-green-900/20 dark:hover:bg-green-900/30 rounded-lg transition-colors">
+                                        <i class="fas fa-database text-green-500 mr-2"></i>
+                                        <span class="text-green-700 dark:text-green-300">数据集链接</span>
+                                    </a>
+                                </div>
+
+                                <!-- 图片展示区域 - 两个并列区块 -->
+                                <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- 研究框架图区块 -->
+                                    <div
+                                        class="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-md transition-all duration-300 border border-blue-100 dark:border-blue-900/30">
+                                        <h5
+                                            class="text-blue-600 dark:text-blue-300 font-bold mb-3 flex items-center text-lg">
+                                            <i class="fas fa-project-diagram text-blue-500 mr-2"></i>研究框架图
+                                        </h5>
+                                        <div
+                                            class="rounded-lg overflow-hidden flex-none h-64 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                            <img src="resource/flowchart.png" alt="UrbanVideo-Bench研究框架图"
+                                                class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                        </div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-3">
+                                            UrbanVideo-Bench框架流程图</p>
+                                    </div>
+
+                                    <!-- 问题定义文档区块 -->
+                                    <div
+                                        class="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-md transition-all duration-300 border border-blue-100 dark:border-blue-900/30">
+                                        <h5
+                                            class="text-blue-600 dark:text-blue-300 font-bold mb-3 flex items-center text-lg">
+                                            <i class="fas fa-file-alt text-blue-500 mr-2"></i>问题定义文档
+                                        </h5>
+                                        <div
+                                            class="rounded-lg overflow-hidden flex-none h-64 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                            <img src="resource/problem_def.png" alt="问题定义文档"
+                                                class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                        </div>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mt-3">
+                                            包含项目问题定义和详细方法说明</p>
+                                    </div>
+                                </div>
+
+                                <!-- 负责内容区域 -->
+                                <div class="mb-6 p-5 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                                    <h5 class="font-bold mb-3 flex items-center text-gray-700 dark:text-gray-300">
+                                        <i class="fas fa-tasks text-blue-500 mr-2"></i>负责内容
+                                    </h5>
+                                    <p class="text-gray-700 dark:text-gray-300 mb-0">
+                                        参与<b>基准测试集(benchmark)的设计与构建</b>，负责<b>数据集的优化与改进</b>，同时承担部分<b>图表绘制</b>与<b>论文撰写</b>等工作。
+                                    </p>
+                                </div>
+
+                                <!-- 项目成果 -->
+                                <div class="project-outcome">
+                                    <h5 class="font-bold mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                                        <i class="fas fa-trophy text-amber-500 mr-2"></i>项目成果
+                                    </h5>
+                                    <p class="text-gray-700 dark:text-gray-300">
+                                        论文已被<strong class="text-blue-700 dark:text-blue-300">ACL 2025 Main</strong>录用，并受邀进行<strong
+                                            class="text-blue-700 dark:text-blue-300">口头汇报(Oral)</strong>；论文累计被引<strong
+                                            class="text-blue-700 dark:text-blue-300">18次</strong>；数据集月度最高下载量达<strong
+                                            class="text-blue-700 dark:text-blue-300">4600+</strong>。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 项目三：北大中文核心期刊论文 -->
+                        <div class="timeline-item">
+                            <div class="card p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="text-xl font-bold flex items-center">
+                                        <i class="fas fa-file-alt text-blue-600 dark:text-blue-400 mr-2"></i>北大中文核心期刊论文
+                                    </h3>
+                                    <span
+                                        class="text-sm bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200 px-3 py-1 rounded-full">2024.05-2025.01</span>
+                                </div>
+                                <div
+                                    class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg hover:shadow-md transition-shadow mb-8">
+                                    <h4 class="font-bold mb-3 flex items-center text-blue-700 dark:text-blue-300">
+                                        <i class="fas fa-file text-blue-500 mr-2"></i>论文名称：<a href="paper/引入威胁空间搜索的五子棋深度强化学习方法.pdf"
+                                            class="text-blue-600 dark:text-blue-400 hover:underline"
+                                            target="_blank">《引入威胁空间搜索的五子棋深度强化学习方法》</a>
+                                    </h4>
+                                    <div class="mb-4">
+                                        <span
+                                            class="inline-block px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm font-medium mb-2">第二作者（学生一作）</span>
+                                    </div>
+
+                                    <div class="mb-4 pl-6">
+                                        <h5 class="font-bold mb-2 flex items-center text-blue-700 dark:text-blue-300">
+                                            <i class="fas fa-info-circle text-blue-500 mr-2"></i>论文概述
+                                        </h5>
+                                        <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                            本论文针对<strong>深度强化学习</strong>在复杂博弈问题中面临的<strong>奖励稀疏</strong>和<strong>训练成本高</strong>的问题，
+                                            提出了一种引入<strong>威胁空间搜索</strong>的五子棋<strong>深度强化学习方法</strong>。主要内容包括：
+                                        </p>
+                                        <ul class="list-disc pl-10 space-y-2 text-gray-700 dark:text-gray-300">
+                                            <li>设计了<strong>统一威胁空间搜索算法</strong>，并将其嵌入<strong>蒙特卡洛树搜索</strong>中，缓解了奖励稀疏问题
+                                            </li>
+                                            <li>提出了基于<strong>领域知识的双层知识库</strong>，加速了算法搜索速度</li>
+                                            <li>将<strong>威胁动作空间</strong>作为神经网络的输入特征，增强了模型对<strong>关键局部形势</strong>的感知能力
+                                            </li>
+                                            <li>利用<strong>走法过滤机制</strong>缩小了动作空间</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mb-4 pl-6">
+                                        <h5 class="font-bold mb-2 flex items-center text-blue-700 dark:text-blue-300">
+                                            <i class="fas fa-tasks text-green-500 mr-2"></i>负责内容
+                                        </h5>
+                                        <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                            负责<strong>核心算法设计与实现</strong>；独立完成<strong>消融实验设计与执行</strong>，负责<strong>实验数据可视化与分析</strong>；主笔完成论文<strong>实验部分</strong>和<strong>算法原理</strong>的写作工作。
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- 论文成果可视化 -->
+                                <div class="mt-12">
+                                    <h5 class="text-xl font-bold mb-6 flex items-center">
+                                        <i
+                                            class="fas fa-chart-pie mr-2 text-indigo-600 dark:text-indigo-400"></i>研究成果可视化
+                                    </h5>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <!-- 第一个图表：损失函数曲线 -->
+                                        <div
+                                            class="p-5 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-lg hover:translate-y-[-5px] transition-all duration-300 flex flex-col h-full border border-purple-100 dark:border-purple-900/30">
+                                            <div
+                                                class="mb-4 rounded-lg overflow-hidden flex-none h-48 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                                <img src="resource/图4神经网络损失曲线.svg" alt="神经网络损失曲线"
+                                                    class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                            </div>
+                                            <div class="flex-grow flex flex-col">
+                                                <h4
+                                                    class="font-bold mb-2 flex items-center text-purple-700 dark:text-purple-300">
+                                                    <i class="fas fa-chart-line text-purple-500 mr-2"></i>损失函数值减少
+                                                </h4>
+                                                <div class="flex items-baseline">
+                                                    <p
+                                                        class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400">
+                                                        54.7%</p>
+                                                    <div
+                                                        class="ml-2 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs font-medium px-2 py-1 rounded-full">
+                                                        显著降低</div>
+                                                </div>
+                                                <p class="text-sm text-blue-600 dark:text-blue-400 mt-2">
+                                                    优化后的神经网络损失值显著下降，模型收敛速度提高</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- 第二个图表：分支因子与对局步数 -->
+                                        <div
+                                            class="p-5 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl hover:shadow-lg hover:translate-y-[-5px] transition-all duration-300 flex flex-col h-full border border-blue-100 dark:border-blue-900/30">
+                                            <div
+                                                class="mb-4 rounded-lg overflow-hidden flex-none h-48 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                                <img src="resource/图5分支因子与对局步数分布对比.svg" alt="分支因子与对局步数分布对比"
+                                                    class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                            </div>
+                                            <div class="flex-grow flex flex-col">
+                                                <h4
+                                                    class="font-bold mb-2 flex items-center text-blue-700 dark:text-blue-300">
+                                                    <i class="fas fa-chart-bar text-blue-500 mr-2"></i>平均分支因子降幅
+                                                </h4>
+                                                <div class="flex items-baseline">
+                                                    <p
+                                                        class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
+                                                        65.85%</p>
+                                                    <div
+                                                        class="ml-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs font-medium px-2 py-1 rounded-full">
+                                                        极大提升</div>
+                                                </div>
+                                                <p class="text-sm text-blue-600 dark:text-blue-400 mt-2">
+                                                    搜索空间显著缩小，算法效率大幅提高，计算资源利用更为高效</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- 第三个图表：TrueSkill评分对比 -->
+                                        <div
+                                            class="p-5 bg-gradient-to-br from-indigo-50 to-cyan-50 dark:from-indigo-900/20 dark:to-cyan-900/20 rounded-xl hover:shadow-lg hover:translate-y-[-5px] transition-all duration-300 flex flex-col h-full border border-indigo-100 dark:border-indigo-900/30">
+                                            <div
+                                                class="mb-4 rounded-lg overflow-hidden flex-none h-48 flex items-center justify-center bg-white/80 dark:bg-gray-800/50 shadow-inner">
+                                                <img src="resource/图6TrueSkill评分对比.svg" alt="TrueSkill评分对比"
+                                                    class="max-w-full max-h-full object-contain transform hover:scale-105 transition-transform duration-300">
+                                            </div>
+                                            <div class="flex-grow flex flex-col">
+                                                <h4
+                                                    class="font-bold mb-2 flex items-center text-indigo-700 dark:text-indigo-300">
+                                                    <i class="fas fa-trophy text-indigo-500 mr-2"></i>TrueSkill评分提升
+                                                </h4>
+                                                <div class="flex items-baseline">
+                                                    <p
+                                                        class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400">
+                                                        87.3%</p>
+                                                    <div
+                                                        class="ml-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-300 text-xs font-medium px-2 py-1 rounded-full">
+                                                        棋力提升</div>
+                                                </div>
+                                                <p class="text-sm text-blue-600 dark:text-blue-400 mt-2">
+                                                    训练效率大幅提高，模型性能显著超越传统方法</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 项目成果 -->
+                                    <div class="mt-8 project-outcome">
+                                        <h5 class="font-bold mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                                            <i class="fas fa-trophy text-amber-500 mr-2"></i>项目成果
+                                        </h5>
+                                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                                            论文已被<strong class="text-blue-700 dark:text-blue-300">重庆理工大学学报</strong>（<strong class="text-blue-700 dark:text-blue-300">北大中文核心期刊</strong>）录用；应用该方法，仅用<strong class="text-blue-700 dark:text-blue-300">单GPU(3060Ti)</strong>自博弈训练<strong class="text-blue-700 dark:text-blue-300">7天</strong>，即取得博弈大赛<strong class="text-blue-700 dark:text-blue-300">全国亚军</strong>。
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 项目三：中国大学生计算机博弈大赛 -->
+                        <div class="timeline-item">
+                            <div class="card p-6 mb-4">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="text-xl font-bold flex items-center">
+                                        <i class="fas fa-chess text-blue-600 dark:text-blue-400 mr-2"></i>中国大学生计算机博弈大赛
+                                    </h3>
+                                    <span
+                                        class="text-sm bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-200 px-3 py-1 rounded-full">2024.04-2024.09</span>
+                                </div>
+
+                                <div
+                                    class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg shadow-sm">
+                                    <h4 class="font-bold mb-3 flex items-center text-indigo-700 dark:text-indigo-300">
+                                        <i class="fas fa-project-diagram text-indigo-500 mr-2"></i>项目名称：悟空五子棋 & 悟空苏拉卡尔塔棋
+                                    </h4>
+                                    <div class="mb-4">
+                                        <span
+                                            class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-200 rounded-full text-sm font-medium">核心成员</span>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h5 class="font-bold mb-2 flex items-center text-blue-700 dark:text-blue-300">
+                                            <i class="fas fa-info-circle text-blue-500 mr-2"></i>项目概述
+                                        </h5>
+                                        <p class="text-gray-700 dark:text-gray-300 mb-4 pl-6">
+                                            <strong>悟空五子棋</strong>为核心项目，成功开发了基于<strong>蒙特卡罗树搜索</strong>和<strong>深度强化学习</strong>的自博弈训练模型；
+                                            通过引入<strong>威胁空间搜索</strong>缓解了自博弈训练中奖励稀疏的问题，并采取<strong>动作空间裁剪策略</strong>，
+                                            显著提升了AI的博弈水平。<strong>悟空苏拉卡尔塔</strong>则侧重于<strong>规则优化</strong>与<strong>并行蒙特卡罗树搜索</strong>的实现。
+                                        </p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h5 class="font-bold mb-2 flex items-center text-blue-700 dark:text-blue-300">
+                                            <i class="fas fa-tasks text-blue-500 mr-2"></i>负责内容
+                                        </h5>
+                                        <p class="text-gray-700 dark:text-gray-300 mb-4 pl-6">
+                                            <strong>项目核心算法设计与实现</strong>，包括蒙特卡罗树搜索、威胁空间搜索等；<strong>游戏规则系统开发</strong>；<strong>交互界面设计与实现</strong>，确保良好的用户体验。
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- 项目UI展示 -->
+                                <div class="mb-8">
+                                    <h5 class="font-bold mb-4 flex items-center text-blue-700 dark:text-blue-300">
+                                        <i class="fas fa-desktop text-blue-500 mr-2"></i>界面展示
+                                    </h5>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div
+                                            class="p-4 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800/50 dark:to-blue-900/20 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                                            <div
+                                                class="overflow-hidden rounded-lg mb-3 h-64 flex items-center justify-center">
+                                                <img src="UI_demo/connect5_UI.png" alt="五子棋UI界面"
+                                                    class="w-full h-full object-contain">
+                                            </div>
+                                            <h4 class="font-bold mb-1 text-center text-blue-700 dark:text-blue-300">
+                                                <i class="fas fa-chess-board text-blue-500 mr-2"></i>悟空五子棋界面
+                                            </h4>
+                                        </div>
+                                        <div
+                                            class="p-4 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800/50 dark:to-blue-900/20 rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                                            <div
+                                                class="overflow-hidden rounded-lg mb-3 h-64 flex items-center justify-center">
+                                                <img src="UI_demo/Surakarta_UI.png" alt="苏拉卡尔塔UI界面"
+                                                    class="w-full h-full object-contain">
+                                            </div>
+                                            <h4 class="font-bold mb-1 text-center text-blue-700 dark:text-blue-300">
+                                                <i class="fas fa-chess text-blue-500 mr-2"></i>悟空苏拉卡尔塔界面
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 项目成果 -->
+                                <div class="project-outcome">
+                                    <h5 class="font-bold mb-3 flex items-center text-gray-800 dark:text-gray-200">
+                                        <i class="fas fa-trophy text-amber-500 mr-2"></i>项目成果
+                                    </h5>
+                                    <p class="text-gray-700 dark:text-gray-300 pl-6">
+                                        2024年中国大学生计算机博弈大赛五子棋项目<strong
+                                            class="text-blue-700 dark:text-blue-300">全国亚军</strong>、
+                                        苏拉卡尔塔棋项目<strong class="text-blue-700 dark:text-blue-300">全国冠军</strong>。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 获奖情况 -->
+        <section id="awards" class="mb-20 scroll-reveal">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/4 mb-6 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4 inline-block pb-2 border-b-4 border-blue-800">获奖情况</h2>
+                </div>
+                <div class="md:w-3/4">
+                    <div class="card p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- 省级奖项 -->
+                            <div>
+                                <h3 class="text-xl font-bold mb-4 flex items-center">
+                                    <i class="fas fa-medal text-blue-500 mr-2"></i>省级奖项
+                                </h3>
+                                <div class="space-y-4">
+                                    <div
+                                        class="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg hover:shadow-md transition-shadow">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-bold text-black">全国新一代信息通信技术大赛三等奖</h4>
+                                                <p class="text-sm text-blue-600">2025年</p>
+                                            </div>
+                                            <span
+                                                class="award-badge bg-gradient-to-r from-blue-500 to-indigo-500">省级</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 校级奖项 -->
+                        <div class="mt-8">
+                            <h3 class="text-xl font-bold mb-4 flex items-center">
+                                <i class="fas fa-award text-purple-500 mr-2"></i>校级奖项
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div
+                                    class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg hover:shadow-md transition-shadow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-bold text-black">东北大学校三等奖学金</h4>
+                                            <p class="text-sm text-blue-600">2023-2024学年第一学期</p>
+                                        </div>
+                                        <span class="award-badge bg-gradient-to-r from-purple-500 to-pink-500">校级</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg hover:shadow-md transition-shadow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-bold text-black">东北大学校三等奖学金</h4>
+                                            <p class="text-sm text-blue-600">2023-2024学年第二学期</p>
+                                        </div>
+                                        <span class="award-badge bg-gradient-to-r from-purple-500 to-pink-500">校级</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg hover:shadow-md transition-shadow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-bold text-black">东北大学校三等奖学金</h4>
+                                            <p class="text-sm text-blue-600">2024-2025学年第一学期</p>
+                                        </div>
+                                        <span class="award-badge bg-gradient-to-r from-purple-500 to-pink-500">校级</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg hover:shadow-md transition-shadow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-bold text-black">东北大学校三等奖学金</h4>
+                                            <p class="text-sm text-blue-600">2024-2025学年第二学期</p>
+                                        </div>
+                                        <span class="award-badge bg-gradient-to-r from-purple-500 to-pink-500">校级</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg hover:shadow-md transition-shadow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-bold text-black">东北大学校三等奖学金</h4>
+                                            <p class="text-sm text-blue-600">2025-2026学年第一学期</p>
+                                        </div>
+                                        <span class="award-badge bg-gradient-to-r from-purple-500 to-pink-500">校级</span>
+                                    </div>
+                                </div>
+                                <div
+                                    class="p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg hover:shadow-md transition-shadow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-bold text-black">校级优秀学生干部</h4>
+                                            <p class="text-sm text-blue-600">2024-2025学年</p>
+                                        </div>
+                                        <span class="award-badge bg-gradient-to-r from-purple-500 to-pink-500">校级</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 证书展示盒 -->
+                        <div class="certificate-showcase mt-10 mb-8">
+                            <h3 class="text-xl font-bold mb-6 flex items-center">
+                                <i class="fas fa-certificate text-amber-500 mr-2"></i>证书荣誉展示
+                                <span class="ml-2 text-sm font-normal text-gray-500 dark:text-gray-400">· 共展示 <span id="certificates-count" class="text-blue-600 dark:text-blue-300 font-semibold">7</span> 个证书</span>
+                            </h3>
+
+                            <div class="certificate-box bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-xl shadow-xl overflow-hidden border border-blue-100 dark:border-blue-900/30 transform hover:scale-[1.01] transition-all duration-300">
+                                <div class="flex flex-col md:flex-row">
+                                    <!-- 左侧：缩略图预览 -->
+                                    <div class="hidden md:block md:w-1/4 border-r border-blue-100 dark:border-blue-800/50 bg-blue-50/80 dark:bg-blue-900/40 p-4">
+                                        <h4 class="text-sm font-semibold mb-3 text-blue-700 dark:text-blue-400 flex items-center">
+                                            <i class="fas fa-images text-blue-500 mr-2"></i>证书导航
+                                        </h4>
+                                        <div id="certificate-thumbnails" class="space-y-3 max-h-[300px] overflow-y-auto pr-2 certificate-thumbs-container">
+                                            <!-- 由 JavaScript 自动生成 -->
+                                        </div>
+                                        <!-- 缩略图分页 -->
+                                        <div class="flex justify-between items-center mt-3 pt-2 border-t border-blue-100 dark:border-blue-800/50">
+                                            <div id="prev-thumbnails-page" class="text-sm px-2 py-1 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors cursor-pointer" onclick="prevThumbnailsPage(event);">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </div>
+                                            <span id="thumbnails-pagination" class="text-xs text-blue-700 dark:text-blue-300">页 <span id="current-thumbnails-page">1</span>/<span id="total-thumbnails-pages">1</span></span>
+                                            <div id="next-thumbnails-page" class="text-sm px-2 py-1 rounded-md bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors cursor-pointer" onclick="nextThumbnailsPage(event);">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 右侧：主展示区 -->
+                                    <div class="md:w-3/4">
+                                        <div class="certificate-display relative h-96 overflow-hidden bg-white/80 dark:bg-gray-800/50 p-4">
+                                            <div class="flex items-center justify-center h-full relative">
+                                                <img id="certificate-image" src="resource/大唐杯奖状.png" alt="全国新一代信息通信技术大赛" class="w-full h-full object-contain transition-all duration-500 drop-shadow-md">
+                                                <div class="absolute top-0 right-0 m-2">
+                                                    <span id="certificate-index" class="bg-blue-600/90 text-white text-xs rounded-full px-2 py-1 flex items-center">
+                                                        <i class="fas fa-info-circle mr-1"></i><span id="current-index">1</span>/<span id="total-count">7</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="absolute inset-0 flex items-center justify-between px-4">
+                                                <button id="prev-certificate" class="certificate-nav-btn bg-blue-500/90 text-white rounded-full p-3 opacity-80 hover:opacity-100 hover:bg-blue-600 transition-all shadow-lg transform hover:scale-110">
+                                                    <i class="fas fa-chevron-left"></i>
+                                                </button>
+                                                <button id="next-certificate" class="certificate-nav-btn bg-blue-500/90 text-white rounded-full p-3 opacity-80 hover:opacity-100 hover:bg-blue-600 transition-all shadow-lg transform hover:scale-110">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="p-5 text-center border-t border-blue-200 dark:border-blue-800/50 bg-blue-50/50 dark:bg-blue-900/20">
+                                            <h4 id="certificate-title" class="font-bold text-blue-700 dark:text-blue-400 flex items-center justify-center">
+                                                <i class="fas fa-award mr-2 text-amber-500"></i>
+                                                全国新一代信息通信技术大赛三等奖
+                                            </h4>
+                                            <div class="mt-3 flex justify-center">
+                                                <span id="certificate-date" class="bg-blue-100 dark:bg-blue-800/50 text-blue-700 dark:text-blue-300 text-xs px-3 py-1 rounded-full flex items-center">
+                                                    <i class="fas fa-calendar-alt mr-1"></i>2025年
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-center text-gray-500 dark:text-gray-400 mt-3">
+                                <i class="fas fa-lightbulb text-yellow-500 mr-1"></i>提示：可通过左侧缩略图或点击按钮浏览全部证书荣誉
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 学生工作 -->
+        <section id="work" class="mb-20 scroll-reveal">
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/4 mb-6 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4 inline-block pb-2 border-b-4 border-blue-800">学生工作</h2>
+                </div>
+                <div class="md:w-3/4">
+                    <div class="relative">
+                        <div class="mb-6">
+                            <div class="card p-6">
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="text-xl font-bold">副部长</h3>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">2023.10-2025.10</span>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                    东北大学党委宣传部融媒体中心
+                                </p>
+                                <h4 class="font-bold mb-2 flex items-center text-purple-700 dark:text-purple-300">
+                                    <i class="fas fa-bullhorn text-purple-500 mr-2"></i>主要职责
+                                </h4>
+                                <ul class="list-disc pl-5 space-y-2 text-purple-600 dark:text-purple-400">
+                                    <li>组织干事定期进行线上阵地监督巡查</li>
+                                    <li>组织策划学习强国挑战赛、宪法演讲比赛等校级大型活动</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 主题切换按钮 -->
+        <!-- 注释掉暗色模式切换按钮
+    <button id="theme-toggle" class="theme-toggle bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+        <i class="fas fa-sun text-xl dark:hidden"></i>
+        <i class="fas fa-moon text-xl hidden dark:block"></i>
+    </button>
+    -->
+
+        <!-- JavaScript -->
+        <script>
+            // 初始化 Mermaid
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'base',
+                securityLevel: 'loose',
+                fontFamily: "'Noto Sans SC', sans-serif",
+                themeVariables: {
+                    primaryColor: '#4f46e5',
+                    primaryTextColor: '#ffffff',
+                    primaryBorderColor: '#3730a3',
+                    lineColor: '#6366f1',
+                    secondaryColor: '#3b82f6',
+                    tertiaryColor: document.documentElement.classList.contains('dark') ? '#1e293b' : '#f0f9ff',
+                    textColor: document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#374151'
+                }
+            });
+
+            // 主题切换事件（暂时注释掉，但保留代码以备将来可能需要恢复）
+            /*
+            const themeToggle = document.getElementById('theme-toggle');
+            const html = document.documentElement;
+            
+            // 检查系统偏好和本地存储
+            const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('theme');
+            
+            // 设置初始主题
+            if (savedTheme === 'dark' || (!savedTheme && prefersDarkMode)) {
+                html.classList.add('dark');
+                document.body.classList.remove('light');
+                document.body.classList.add('dark');
+            } else {
+                html.classList.remove('dark');
+                document.body.classList.add('light');
+                document.body.classList.remove('dark');
+            }
+            
+            // 主题切换事件
+            themeToggle.addEventListener('click', () => {
+                html.classList.toggle('dark');
+                document.body.classList.toggle('light');
+                document.body.classList.toggle('dark');
+                
+                const isDark = html.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                
+                // 完全重新渲染Mermaid图表
+                try {
+                    // 保存原始内容
+                    const mermaidElements = document.querySelectorAll('.mermaid-wrapper');
+                    
+                    // 重新初始化Mermaid
+                    mermaid.initialize({ 
+                        startOnLoad: false,
+                        theme: 'base',
+                        securityLevel: 'loose',
+                        fontFamily: "'Noto Sans SC', sans-serif",
+                        themeVariables: {
+                            primaryColor: '#4f46e5',
+                            primaryTextColor: '#ffffff',
+                            primaryBorderColor: '#3730a3',
+                            lineColor: '#6366f1',
+                            secondaryColor: '#3b82f6',
+                            tertiaryColor: isDark ? '#1e293b' : '#f0f9ff',
+                            textColor: isDark ? '#f3f4f6' : '#374151'
+                        }
+                    });
+                    
+                    // 清除并重新创建图表
+                    mermaidElements.forEach((wrapper) => {
+                        // 获取原始内容
+                        const originalContent = wrapper.querySelector('.mermaid').getAttribute('data-original');
+                        
+                        // 清除wrapper内容
+                        wrapper.innerHTML = '';
+                        
+                        // 创建新的mermaid元素
+                        const newMermaid = document.createElement('div');
+                        newMermaid.className = 'mermaid';
+                        newMermaid.textContent = originalContent;
+                        newMermaid.setAttribute('data-original', originalContent);
+                        
+                        // 添加到wrapper
+                        wrapper.appendChild(newMermaid);
+                    });
+                    
+                    // 延迟渲染以确保DOM已更新
+                    setTimeout(() => {
+                        mermaid.init(undefined, '.mermaid');
+                    }, 150);
+                    
+                } catch (error) {
+                    console.error('Mermaid重新渲染失败:', error);
+                }
+            });
+            */
+
+            // 移动端菜单切换
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // 导航栏高度的偏移
+                            behavior: 'smooth'
+                        });
+
+                        // 如果是移动端菜单，点击后关闭菜单
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+
+            // 滚动显示动画
+            const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+
+            function checkVisibility() {
+                scrollRevealElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+
+                    if (elementTop < windowHeight * 0.85) {
+                        element.classList.add('active');
+                    }
+                });
+            }
+
+            // 初始检查
+            checkVisibility();
+
+            // 滚动时检查
+            window.addEventListener('scroll', checkVisibility);
+
+            // 技能进度条动画
+            const skillElements = document.querySelectorAll('.skill-progress');
+
+            function animateSkills() {
+                skillElements.forEach(skill => {
+                    const percentage = skill.getAttribute('data-percentage');
+                    skill.style.width = '0%';
+
+                    setTimeout(() => {
+                        skill.style.width = percentage + '%';
+                    }, 300);
+                });
+            }
+
+            // 教育部分可见性检查
+            const educationSection = document.getElementById('education');
+
+            function checkEducationVisibility() {
+                if (educationSection) {
+                    const elementTop = educationSection.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+
+                    if (elementTop < windowHeight * 0.75 && !educationSection.classList.contains('animated')) {
+                        educationSection.classList.add('animated');
+                        animateSkills();
+                    }
+                }
+            }
+
+            // 初始检查教育部分
+            checkEducationVisibility();
+
+            // 滚动时检查教育部分
+            window.addEventListener('scroll', checkEducationVisibility);
+
+            // 导航栏激活状态
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            function updateNavigation() {
+                const scrollPosition = window.scrollY + 100;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('text-blue-600', 'dark:text-blue-400');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('text-blue-600', 'dark:text-blue-400');
+                            }
+                        });
+                    }
+                });
+            }
+
+            // 初始检查导航栏
+            updateNavigation();
+
+            // 滚动时更新导航栏
+            window.addEventListener('scroll', updateNavigation);
+
+            // 证书展示盒功能
+            const certificateImage = document.getElementById('certificate-image');
+            const certificateTitle = document.getElementById('certificate-title');
+            const prevCertificateBtn = document.getElementById('prev-certificate');
+            const nextCertificateBtn = document.getElementById('next-certificate');
+
+            // 缩略图分页设置
+            const THUMBS_PER_PAGE = 5;
+            let currentThumbsPage = 0;
+
+            // 存储所有证书信息
+            const certificates = [
+                {
+                    title: "全国新一代信息通信技术大赛三等奖",
+                    date: "2025年",
+                    image: "resource/大唐杯奖状.png"
+                },
+                {
+                    title: "校级优秀学生干部",
+                    date: "2025年",
+                    image: "resource/校级优秀学生干部.png"
+                },
+                {
+                    title: "东北大学校三等奖学金",
+                    date: "2024年",
+                    image: "resource/2023.1奖学金.png"
+                },
+                {
+                    title: "东北大学校三等奖学金",
+                    date: "2024年",
+                    image: "resource/2023.2奖学金.png"
+                },
+                {
+                    title: "东北大学校三等奖学金",
+                    date: "2025年",
+                    image: "resource/2024.1奖学金.png"
+                },
+                {
+                    title: "东北大学校三等奖学金",
+                    date: "2025年",
+                    image: "resource/2024.2奖学金.png"
+                },
+                {
+                    title: "东北大学校三等奖学金",
+                    date: "2026年",
+                    image: "resource/2025.1奖学金.png"
+                }
+            ];
+
+            let currentCertificateIndex = 0; // 默认显示第一张证书
+
+            // 更新证书显示
+            function updateCertificateDisplay() {
+                // 确保当前索引在有效范围内
+                if (currentCertificateIndex >= certificates.length) {
+                    currentCertificateIndex = 0;
+                }
+
+                const certificate = certificates[currentCertificateIndex];
+
+                // 添加淡出效果
+                certificateImage.style.opacity = '0';
+
+                setTimeout(() => {
+                    // 更新主图片和标题
+                    certificateImage.src = certificate.image;
+                    certificateImage.alt = certificate.title;
+                    certificateTitle.innerHTML = `<i class="fas fa-award mr-2 text-amber-500"></i>${certificate.title}`;
+
+                    // 更新额外信息
+                    document.getElementById('certificate-date').innerHTML = `<i class="fas fa-calendar-alt mr-1"></i>${certificate.date}`;
+
+                    // 更新导航指示器
+                    document.getElementById('current-index').textContent = currentCertificateIndex + 1;
+                    document.getElementById('total-count').textContent = certificates.length;
+
+                    // 添加淡入效果
+                    certificateImage.style.opacity = '1';
+
+                    // 更新小点状态
+                    updateDots();
+
+                    // 更新缩略图高亮状态
+                    updateThumbnailHighlight();
+
+                    // 更新缩略图分页，确保当前证书在可见区域
+                    updateThumbnailsPagination();
+                }, 300);
+            }
+
+            // 更新导航小点
+            function updateDots() {
+                const dotsContainer = document.getElementById('certificate-dots');
+                dotsContainer.innerHTML = ''; // 清除现有小点
+
+                certificates.forEach((_, index) => {
+                    const dot = document.createElement('span');
+                    dot.classList.add('h-2', 'w-2', 'rounded-full', 'opacity-70', 'cursor-pointer', 'transition-all');
+
+                    if (index === currentCertificateIndex) {
+                        dot.classList.add('bg-blue-500', 'w-4'); // 活动点颜色和宽度
+                    } else {
+                        dot.classList.add('bg-blue-300');
+                    }
+
+                    dot.addEventListener('click', () => {
+                        currentCertificateIndex = index;
+                        updateCertificateDisplay();
+                    });
+
+                    dotsContainer.appendChild(dot);
+                });
+            }
+
+            // 更新缩略图高亮状态
+            function updateThumbnailHighlight() {
+                const thumbnails = document.querySelectorAll('.certificate-thumbnail');
+                thumbnails.forEach((thumb, index) => {
+                    // 只处理可见的缩略图（筛选后的）
+                    if (index < certificates.length) {
+                        if (index === currentCertificateIndex) {
+                            thumb.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50', 'dark:bg-blue-900/30');
+                            thumb.classList.remove('opacity-70');
+
+                            // 滚动到可见区域
+                            thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        } else {
+                            thumb.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50', 'dark:bg-blue-900/30');
+                            thumb.classList.add('opacity-70');
+                        }
+                    }
+                });
+            }
+
+            // 生成缩略图
+            function generateThumbnails() {
+                const thumbnailsContainer = document.getElementById('certificate-thumbnails');
+                if (!thumbnailsContainer) return;
+
+                thumbnailsContainer.innerHTML = ''; // 清除现有缩略图
+
+                // 计算当前页的缩略图
+                const startIndex = currentThumbsPage * THUMBS_PER_PAGE;
+                const endIndex = Math.min(startIndex + THUMBS_PER_PAGE, certificates.length);
+
+                // 更新分页信息
+                updateThumbnailsPagination();
+
+                // 只生成当前页的缩略图
+                for (let index = startIndex; index < endIndex; index++) {
+                    const certificate = certificates[index];
+                    const thumbnail = document.createElement('div');
+                    thumbnail.classList.add(
+                        'certificate-thumbnail',
+                        'flex',
+                        'items-center',
+                        'p-2',
+                        'rounded-lg',
+                        'cursor-pointer',
+                        'hover:bg-blue-50',
+                        'dark:hover:bg-blue-900/30',
+                        'transition-all',
+                        'opacity-70'
+                    );
+
+                    if (index === currentCertificateIndex) {
+                        thumbnail.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50', 'dark:bg-blue-900/30');
+                        thumbnail.classList.remove('opacity-70');
+                    }
+
+                    // 为不同类型的证书添加不同的边框颜色
+                    thumbnail.innerHTML = `
+                        <div class="w-12 h-12 bg-white dark:bg-gray-700 rounded border border-blue-200 flex-shrink-0 overflow-hidden relative">
+                            <img src="${certificate.image}" alt="${certificate.title}" class="w-full h-full object-contain">
+                        </div>
+                        <div class="ml-2 flex-grow overflow-hidden">
+                            <h5 class="text-xs font-medium text-blue-700 dark:text-blue-400 truncate">${certificate.title}</h5>
+                        </div>
+                    `;
+
+                    thumbnail.addEventListener('click', () => {
+                        currentCertificateIndex = index;
+                        updateCertificateDisplay();
+                    });
+
+                    thumbnailsContainer.appendChild(thumbnail);
+                }
+            }
+
+            // 更新缩略图分页信息
+            function updateThumbnailsPagination() {
+                const totalPages = Math.ceil(certificates.length / THUMBS_PER_PAGE);
+
+                // 更新分页信息
+                const currentPageEl = document.getElementById('current-thumbnails-page');
+                const totalPagesEl = document.getElementById('total-thumbnails-pages');
+
+                if (currentPageEl && totalPagesEl) {
+                    currentPageEl.textContent = currentThumbsPage + 1;
+                    totalPagesEl.textContent = totalPages;
+                }
+
+                // 如果当前证书不在当前页面，切换到包含当前证书的页面
+                const certPage = Math.floor(currentCertificateIndex / THUMBS_PER_PAGE);
+                if (certPage !== currentThumbsPage) {
+                    currentThumbsPage = certPage;
+                    generateThumbnails();
+                }
+            }
+
+            // 将缩略图翻到上一页
+            function prevThumbnailsPage(e) {
+                // 阻止默认行为和事件冒泡，防止页面展开
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                const totalPages = Math.ceil(certificates.length / THUMBS_PER_PAGE);
+                currentThumbsPage = (currentThumbsPage - 1 + totalPages) % totalPages;
+
+                // 将当前证书索引设置为新页面的第一个证书
+                currentCertificateIndex = currentThumbsPage * THUMBS_PER_PAGE;
+
+                // 更新缩略图和证书展示
+                generateThumbnails();
+                updateCertificateDisplay();
+            }
+            window.prevThumbnailsPage = prevThumbnailsPage;
+            window.nextThumbnailsPage = nextThumbnailsPage;
+
+            // 将缩略图翻到下一页
+            function nextThumbnailsPage(e) {
+                // 阻止默认行为和事件冒泡，防止页面展开
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                const totalPages = Math.ceil(certificates.length / THUMBS_PER_PAGE);
+                currentThumbsPage = (currentThumbsPage + 1) % totalPages;
+
+                // 将当前证书索引设置为新页面的第一个证书
+                currentCertificateIndex = currentThumbsPage * THUMBS_PER_PAGE;
+
+                // 更新缩略图和证书展示
+                generateThumbnails();
+                updateCertificateDisplay();
+            }
+
+            // 切换到上一个证书
+            prevCertificateBtn.addEventListener('click', () => {
+                currentCertificateIndex = (currentCertificateIndex - 1 + certificates.length) % certificates.length;
+                updateCertificateDisplay();
+            });
+
+            // 切换到下一个证书
+            nextCertificateBtn.addEventListener('click', () => {
+                currentCertificateIndex = (currentCertificateIndex + 1) % certificates.length;
+                updateCertificateDisplay();
+            });
+
+            // 更新证书计数
+            document.getElementById('total-count').textContent = certificates.length;
+
+            // 初始化证书展示
+            generateThumbnails();
+            updateDots();
+            updateCertificateDisplay();
+
+            // 防止缩略图导航区域的点击事件冒泡
+            const thumbnailsNav = document.querySelector('.flex.justify-between.items-center.mt-3.pt-2');
+            if (thumbnailsNav) {
+                thumbnailsNav.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            }
+
+            // 添加键盘导航
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    currentCertificateIndex = (currentCertificateIndex - 1 + certificates.length) % certificates.length;
+                    updateCertificateDisplay();
+                    updateThumbnailsPagination(); // 更新缩略图分页
+                } else if (e.key === 'ArrowRight') {
+                    currentCertificateIndex = (currentCertificateIndex + 1) % certificates.length;
+                    updateCertificateDisplay();
+                    updateThumbnailsPagination(); // 更新缩略图分页
+                }
+            });
+        </script>
+
+        <!-- 将缩略图区域加上防止默认事件的处理 -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // 1. 初始化计数
+                const count = certificates.length;
+                document.getElementById('certificates-count').textContent = count;
+                document.getElementById('total-count').textContent = count;
+
+                // 2. 生成初始内容
+                generateThumbnails();
+                updateDots();
+                updateCertificateDisplay();
+
+                // 3. 统一绑定分页按钮事件 (如果你在HTML里写了onclick，这里可以不写，但建议统一)
+                const prevBtn = document.getElementById('prev-thumbnails-page');
+                const nextBtn = document.getElementById('next-thumbnails-page');
+                // 如果 HTML 已经有 onclick="prevThumbnailsPage(event)"，则此处不需要再 addEventListener
+            });
+        </script>
+
+        <!-- 在页面底部添加JavaScript代码，在theme-toggle按钮脚本之前 -->
+        <script>
+            // 滚动进度条功能
+            window.addEventListener('scroll', function () {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight;
+                const winHeight = window.innerHeight;
+                const scrollPercent = scrollTop / (docHeight - winHeight);
+                const progressBar = document.getElementById('scroll-progress-bar');
+
+                if (progressBar) {
+                    progressBar.style.width = scrollPercent * 100 + '%';
+                }
+            });
+        </script>
+
+        <!-- 主题切换功能 -->
+        <script>
+            // ... existing code ...
+        </script>
+</body>
+
+</html>
